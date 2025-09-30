@@ -24,7 +24,6 @@ public class MyFrame extends JFrame {
 
         TextField input = new TextField("" + Setting.defaultMeteor, 4);
 
-        // ใช้ infoText ของคุณเพื่อแสดงจำนวน meteor
         JLabel infoText = new JLabel("Number of Meteorites : " + Setting.defaultMeteor, JLabel.CENTER);
         infoText.setFont(new Font("Tahoma", Font.BOLD, 16));
         infoText.setForeground(Color.LIGHT_GRAY);

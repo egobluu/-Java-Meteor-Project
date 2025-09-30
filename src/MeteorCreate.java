@@ -82,17 +82,17 @@ public class MeteorCreate extends JPanel implements Runnable {
     }
 
     private void explode(int index) {
-        if (meteor == null || exploding == null){
+        if (meteor == null || exploding == null) {
             return;
-            //เช็คว่า array ถูกสร้างยัง
+            // เช็คว่า array ถูกสร้างยัง
         }
         if (index >= meteor.length) {
             return;
-            //เช็คว่าต้อง index มากกว่า array meteor ให้ออกจากเมดธอดนี้
+            // เช็คว่าต้อง index มากกว่า array meteor ให้ออกจากเมดธอดนี้
         }
         if (meteor[index] == null || exploding[index]) {
             return;
-            //เช็คว่า meteor หรือ exploding มีรูปยัง
+            // เช็คว่า meteor หรือ exploding มีรูปยัง
         }
         exploding[index] = true;
 
@@ -120,7 +120,7 @@ public class MeteorCreate extends JPanel implements Runnable {
     }
 
     private void updateMeteorCount() {
-        if (infoText == null){
+        if (infoText == null) {
             return;
         }
 
@@ -151,7 +151,7 @@ public class MeteorCreate extends JPanel implements Runnable {
                     speedY[i] *= -Setting.speedMultiply;
                 }
 
-                //เช็คไม่ให้ speed เกิน
+                // เช็คไม่ให้ speed เกิน
                 if (speedX[i] > Setting.maxSpeed) {
                     speedX[i] = Setting.maxSpeed;
                 }
@@ -179,10 +179,10 @@ public class MeteorCreate extends JPanel implements Runnable {
                     double distance = Math.sqrt(
                             Math.pow(meteorX[i] - meteorX[j], 2) + Math.pow(meteorY[i] - meteorY[j], 2));
 
-                    //เช็คระยะทางกับขนาดอุกกาบาต
+                    // เช็คระยะทางกับขนาดอุกกาบาต
                     if (distance < (float) (Setting.meteorSize) / 2) {
-                        //ถ้าระยะทางน้อยกว่าขนาดอุกกาบาตหาร 2 = ชน
-                        float speed1 = Math.abs(speedX[i]) + Math.abs(speedY[i]);//abs = คือค่าเป็น + เสมอ
+                        // ถ้าระยะทางน้อยกว่าขนาดอุกกาบาตหาร 2 = ชน
+                        float speed1 = Math.abs(speedX[i]) + Math.abs(speedY[i]);// abs = คือค่าเป็น + เสมอ
                         float speed2 = Math.abs(speedX[j]) + Math.abs(speedY[j]);
 
                         if (speed1 < speed2) {
