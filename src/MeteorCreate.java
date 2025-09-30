@@ -21,7 +21,6 @@ public class MeteorCreate extends JPanel implements Runnable {
         new Thread(this).start();
     }
 
-    // ฟังก์ชันรับ infoText
     public void setInfoText(JLabel infoText) {
         this.infoText = infoText;
     }
@@ -47,10 +46,12 @@ public class MeteorCreate extends JPanel implements Runnable {
             meteorY[i] = rand.nextInt(540);
             speedX[i] = rand.nextInt(Setting.speedMeteor) - Setting.speedMeteor / 2;
             speedY[i] = rand.nextInt(Setting.speedMeteor) - Setting.speedMeteor / 2;
-            if (speedX[i] == 0)
+            if (speedX[i] == 0) {
                 speedX[i] = 1;
-            if (speedY[i] == 0)
+            }
+            if (speedY[i] == 0) {
                 speedY[i] = 1;
+            }
 
             meteor[i] = Toolkit.getDefaultToolkit().createImage(meteorPath);
         }
@@ -81,8 +82,18 @@ public class MeteorCreate extends JPanel implements Runnable {
     }
 
     private void explode(int index) {
-        if (meteor[index] == null || exploding[index])
+        if (meteor == null || exploding == null){
             return;
+            //เช็คว่า array ถูกสร้างยัง
+        }
+        if (index >= meteor.length) {
+            return;
+            //เช็คว่าต้อง index มากกว่า array meteor ให้ออกจากเมดธอดนี้
+        }
+        if (meteor[index] == null || exploding[index]) {
+            return;
+            //เช็คว่า meteor หรือ exploding มีรูปยัง
+        }
         exploding[index] = true;
 
         meteor[index] = Toolkit.getDefaultToolkit().createImage(
@@ -96,14 +107,14 @@ public class MeteorCreate extends JPanel implements Runnable {
             @Override
             public void run() {
                 try {
-                    Thread.sleep(300); 
+                    Thread.sleep(300);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
 
-                meteor[index] = null; 
-                exploding[index] = false; 
-                updateMeteorCount(); 
+                meteor[index] = null;
+                exploding[index] = false;
+                updateMeteorCount();
             }
         }).start();
     }
@@ -112,7 +123,7 @@ public class MeteorCreate extends JPanel implements Runnable {
         if (infoText == null){
             return;
         }
-            
+
         int remaining = 0;
         for (int i = 0; i < count; i++) {
             if (meteor[i] != null && !exploding[i]) {
@@ -133,19 +144,26 @@ public class MeteorCreate extends JPanel implements Runnable {
                 meteorX[i] += speedX[i];
                 meteorY[i] += speedY[i];
 
-                if (meteorX[i] < -5 || meteorX[i] > Setting.window_Width - Setting.meteorSize)
+                if (meteorX[i] < -5 || meteorX[i] > Setting.window_Width - Setting.meteorSize) {
                     speedX[i] *= -Setting.speedMultiply;
-                if (meteorY[i] < -5 || meteorY[i] > (Setting.window_Height - 45) - Setting.meteorSize)
+                }
+                if (meteorY[i] < -5 || meteorY[i] > (Setting.window_Height - 45) - Setting.meteorSize) {
                     speedY[i] *= -Setting.speedMultiply;
+                }
 
-                if (speedX[i] > Setting.maxSpeed)
+                //เช็คไม่ให้ speed เกิน
+                if (speedX[i] > Setting.maxSpeed) {
                     speedX[i] = Setting.maxSpeed;
-                if (speedX[i] < -Setting.maxSpeed)
+                }
+                if (speedX[i] < -Setting.maxSpeed) {
                     speedX[i] = -Setting.maxSpeed;
-                if (speedY[i] > Setting.maxSpeed)
+                }
+                if (speedY[i] > Setting.maxSpeed) {
                     speedY[i] = Setting.maxSpeed;
-                if (speedY[i] < -Setting.maxSpeed)
+                }
+                if (speedY[i] < -Setting.maxSpeed) {
                     speedY[i] = -Setting.maxSpeed;
+                }
             }
 
             // ตรวจสอบการชน
@@ -157,12 +175,14 @@ public class MeteorCreate extends JPanel implements Runnable {
                     if (meteor[j] == null || exploding[j]) {
                         continue;
                     }
-
+                    // สูตรหาระยะทาง
                     double distance = Math.sqrt(
                             Math.pow(meteorX[i] - meteorX[j], 2) + Math.pow(meteorY[i] - meteorY[j], 2));
 
+                    //เช็คระยะทางกับขนาดอุกกาบาต
                     if (distance < (float) (Setting.meteorSize) / 2) {
-                        float speed1 = Math.abs(speedX[i]) + Math.abs(speedY[i]);
+                        //ถ้าระยะทางน้อยกว่าขนาดอุกกาบาตหาร 2 = ชน
+                        float speed1 = Math.abs(speedX[i]) + Math.abs(speedY[i]);//abs = คือค่าเป็น + เสมอ
                         float speed2 = Math.abs(speedX[j]) + Math.abs(speedY[j]);
 
                         if (speed1 < speed2) {
